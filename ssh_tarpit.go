@@ -57,7 +57,6 @@ func handleConnection(conn net.Conn) {
     var strlength int
     var randstr string
     
-    
     // Main loop - get a random string, write it, sleep then do it again
     for {
         // Calculate a length for the string we should output
@@ -67,8 +66,15 @@ func handleConnection(conn net.Conn) {
         randstr = genString(strlength)
         
         // Write it to the socket
-        conn.Write([]byte(randstr))
-        conn.Write([]byte("\r\n"))
+        _, err := conn.Write([]byte(randstr + "\r\n"))
+        
+        // Now check the write worked - if the client went away we'll get an error
+        // at that point, we should stop wasting resources and free up the FD
+        if err != nil {
+            fmt.Println("Coward disconnected: " + conn.RemoteAddr().String())
+            conn.Close()
+            break
+        }
         
         /* Sleep for a period before sending the next
          * We vary the period a bit to tie the client up for varying amounts of time
