@@ -44,6 +44,8 @@ func handleConnection(conn net.Conn) {
     // Close the connection when this function ends
     defer conn.Close()
     
+    // We're going to be generating psuedo-random numbers, so seed it with the time the connection opened
+    rand.Seed(time.Now().Unix())
     
     // Main loop - get a random string, write it, sleep then do it again
     for {
@@ -58,7 +60,9 @@ func handleConnection(conn net.Conn) {
 
 func genString(length int) (string){
     // Generate a psuedo-random string
-    rand.Seed(time.Now().Unix())
+    
+    
+    // Keep out charset ascii - it is pretending to be a printable banner, after all
     charSet := "abcdedfghijklmnopqrstABCDEDFGHIJKLMNOPQRSTUVWXYZ0123456789=.<>?!#@''"
     
     var output strings.Builder
