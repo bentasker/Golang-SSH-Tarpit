@@ -22,7 +22,7 @@ You can run with docker, the image uses the default port `2222` so when running 
 
     docker run -d -p 22:2222 bentasker12/go_ssh_tarpit
 
-This will fetch it from [Docker Hub](https://hub.docker.com/repository/docker/bentasker12/go_ssh_tarpit)
+This will fetch it from [Docker Hub](https://hub.docker.com/r/bentasker12/go_ssh_tarpit)
 
 #### Starting On Boot
 
