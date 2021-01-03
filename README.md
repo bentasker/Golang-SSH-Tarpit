@@ -1,7 +1,7 @@
 Golang SSH Tarpit
 ===================
 
-A simple SSH tarpit written in Go.
+A simple SSH tarpit written in Go, based on the ideas in [endlessh](https://nullprogram.com/blog/2019/03/22/).
 
 
 ## Background

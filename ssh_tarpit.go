@@ -22,9 +22,9 @@ import (
 const (
     LISTEN_PORT = "2222"
     MIN_SLEEP = 1
-    MAX_SLEEP = 5
+    MAX_SLEEP = 5 // Don't set too high or the client will timeout, suggest < 30
     MIN_LENGTH = 10
-    MAX_LENGTH = 120
+    MAX_LENGTH = 120 // This must not be set higher than 253 - SSH spec says 255 max, including the CRLF
 )
 
 
