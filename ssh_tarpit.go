@@ -1,3 +1,14 @@
+/** Golang SSH Tarpit
+ * 
+ * Accept connections from a downstream client, and send them an infinitely long
+ * SSH banner, pausing between each line for various times.
+ *
+ * The idea being that they're tied up with your tarpit and can't go bother others 
+ * 
+ * Copyright (C) 2021 B Tasker
+ * Released under GNU GPL V3 - See LICENSE
+ * 
+ */
 package main
 
 import (
