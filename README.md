@@ -24,6 +24,13 @@ You can run with docker, the image uses the default port `2222` so when running 
 
 This will fetch it from [Docker Hub](https://hub.docker.com/repository/docker/bentasker12/go_ssh_tarpit)
 
+#### Starting On Boot
+
+The easiest way to have the tarpit image start on boot is tell docker to ensure it's always restarted
+
+    docker run -d -p 22:2222 --restart always bentasker12/go_ssh_tarpit
+
+
 ### Manual
 
 If you'd rather not use docker, you just need to build it with `Go`
@@ -46,6 +53,23 @@ However, by default the script binds to port 2222 - this is so that it could eas
 The latter can be achieved with
 
     iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+
+
+### Example Raspberry Pi Deployment
+
+The following steps can be used to deploy onto a Raspberry Pi running Raspbian
+
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    usermod -aG docker pi
+    logout
+    # log back in
+    docker run -d -p 2222:2222 --restart always bentasker12/go_ssh_tarpit:armv7
+    sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
+    sudo apt-get -y install iptables-persistent
+    sudo iptables-save > /etc/iptables/rules.v4
+
+You should be able to see the container running with `docker ls` and can use the name/ID from there to view logs with `docker logs`
 
 ----
 
