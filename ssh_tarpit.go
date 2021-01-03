@@ -77,10 +77,6 @@ func handleConnection(conn net.Conn) {
     }
 }
 
-func gen_rand_in_range(min int, max int) (int) {
-    return rand.Intn(max - min) + min
-}
-
 
 func genString(length int) (string){
     // Generate a psuedo-random string
