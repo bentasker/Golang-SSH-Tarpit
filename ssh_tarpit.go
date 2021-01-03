@@ -12,6 +12,8 @@ const (
     LISTEN_PORT = "2222"
     MIN_SLEEP = 1
     MAX_SLEEP = 5
+    MIN_LENGTH = 10
+    MAX_LENGTH = 120
 )
 
 func main() {
@@ -51,20 +53,32 @@ func handleConnection(conn net.Conn) {
     
     // Define some bits before we enter the loop
     var delay time.Duration
+    var strlength int
+    var randstr string
+    
     
     // Main loop - get a random string, write it, sleep then do it again
     for {
-        var randstr = genString(10)
+        // Calculate a length for the string we should output
+        strlength = rand.Intn(MAX_LENGTH - MIN_LENGTH) + MIN_LENGTH
+        
+        // Generate the string
+        randstr = genString(strlength)
+        
+        // Write it to the socket
         conn.Write([]byte(randstr))
         conn.Write([]byte("\r\n"))
         
         /* Sleep for a period before sending the next
          * We vary the period a bit to tie the client up for varying amounts of time
         */ 
-        
         delay = time.Duration(rand.Intn(MAX_SLEEP - MIN_SLEEP) + MIN_SLEEP)
         time.Sleep(delay * time.Second)
     }
+}
+
+func gen_rand_in_range(min int, max int) (int) {
+    return rand.Intn(max - min) + min
 }
 
 
