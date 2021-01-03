@@ -16,6 +16,7 @@ const (
     MAX_LENGTH = 120
 )
 
+
 func main() {
     // Start listening on the specified port
     listener, err := net.Listen("tcp", "0.0.0.0:" + LISTEN_PORT)
