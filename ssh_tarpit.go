@@ -10,6 +10,8 @@ import (
 
 const (
     LISTEN_PORT = "2222"
+    MIN_SLEEP = 1
+    MAX_SLEEP = 5
 )
 
 func main() {
@@ -47,13 +49,21 @@ func handleConnection(conn net.Conn) {
     // We're going to be generating psuedo-random numbers, so seed it with the time the connection opened
     rand.Seed(time.Now().Unix())
     
+    // Define some bits before we enter the loop
+    var delay time.Duration
+    
     // Main loop - get a random string, write it, sleep then do it again
     for {
         var randstr = genString(10)
         conn.Write([]byte(randstr))
         conn.Write([]byte("\r\n"))
-        // Sleep for 2s before sending the next
-        time.Sleep(2 * time.Second)
+        
+        /* Sleep for a period before sending the next
+         * We vary the period a bit to tie the client up for varying amounts of time
+        */ 
+        
+        delay = time.Duration(rand.Intn(MAX_SLEEP - MIN_SLEEP) + MIN_SLEEP)
+        time.Sleep(delay * time.Second)
     }
 }
 
