@@ -36,6 +36,7 @@ func main() {
 	}        
         
         // Handle the connection in a new goroutine
+        fmt.Println("Tarpitting " + conn.RemoteAddr().String())
         go handleConnection(conn)
     }
     
