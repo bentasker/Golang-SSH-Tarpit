@@ -61,7 +61,7 @@ The following steps can be used to deploy onto a Raspberry Pi running Raspbian
 
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
-    usermod -aG docker pi
+    sudo usermod -aG docker pi
     logout
     # log back in
     docker run -d -p 2222:2222 --restart always bentasker12/go_ssh_tarpit:armv7
