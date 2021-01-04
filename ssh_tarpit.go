@@ -48,7 +48,8 @@ func main() {
 	}        
         
         // Handle the connection in a new goroutine
-        fmt.Println("Tarpitting " + conn.RemoteAddr().String())
+        now := time.Now().Format("2006/01/02-15:04:05")
+        fmt.Println(now, "Tarpitting " + conn.RemoteAddr().String())
         go handleConnection(conn)
     }
     
@@ -85,8 +86,9 @@ func handleConnection(conn net.Conn) {
         // Now check the write worked - if the client went away we'll get an error
         // at that point, we should stop wasting resources and free up the FD
         if err != nil {
-            var delta = int(time.Now().Unix() - start)
-            fmt.Println("Coward disconnected:", conn.RemoteAddr().String(), "after", delta, "seconds")
+            var now = time.Now()
+            var delta = int(now.Unix() - start)
+            fmt.Println(now.Format("2006/01/02-15:04:05"), "Coward disconnected:", conn.RemoteAddr().String(), "after", delta, "seconds")
             conn.Close()
             break
         }
