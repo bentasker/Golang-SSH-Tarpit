@@ -62,7 +62,9 @@ func handleConnection(conn net.Conn) {
     defer conn.Close()
     
     // We're going to be generating psuedo-random numbers, so seed it with the time the connection opened
-    rand.Seed(time.Now().Unix())
+    var start = time.Now().Unix()
+    rand.Seed(start)
+    
     
     // Define some bits before we enter the loop
     var delay time.Duration
@@ -83,7 +85,8 @@ func handleConnection(conn net.Conn) {
         // Now check the write worked - if the client went away we'll get an error
         // at that point, we should stop wasting resources and free up the FD
         if err != nil {
-            fmt.Println("Coward disconnected: " + conn.RemoteAddr().String())
+            var delta = int(time.Now().Unix() - start)
+            fmt.Println("Coward disconnected:", conn.RemoteAddr().String(), "after", delta, "seconds")
             conn.Close()
             break
         }
